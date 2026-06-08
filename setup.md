@@ -22,15 +22,12 @@ Create database:
 CREATE DATABASE library_system;
 ```
 
-Configure:
+Configure env at `library_system/.env`:
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/library_system
-spring.datasource.username=root
-spring.datasource.password=your_password
-
-spring.jpa.hibernate.ddl-auto=create
-spring.jpa.show-sql=true
+```env
+DATASOURCE_URL=jdbc:mysql://localhost:3306/library_system
+DATASOURCE_USER=root
+DATASOURCE_PASSWORD=your_password
 ```
 
 Navigate to backend directory:
