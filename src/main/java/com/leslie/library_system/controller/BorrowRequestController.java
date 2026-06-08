@@ -1,5 +1,6 @@
 package com.leslie.library_system.controller;
 
+import com.leslie.library_system.dto.borrowRecord.BorrowRecordResponse;
 import com.leslie.library_system.dto.borrowRequest.ApproveBorrowRequest;
 import com.leslie.library_system.dto.borrowRequest.BorrowRequestResponse;
 import com.leslie.library_system.dto.borrowRequest.CreateBorrowRequest;
@@ -35,5 +36,10 @@ public class BorrowRequestController {
     @PutMapping("/{id}/reject")
     public BorrowRequestResponse rejectRequest(@PathVariable Long id, @RequestBody RejectBorrowRequest request){
         return borrowRequestService.rejectRequest(id, request.adminId(), request.reason());
+    }
+
+    @GetMapping("/student/{studentId}")
+    public List<BorrowRequestResponse> getStudentRequests(@PathVariable Long studentId){
+        return borrowRequestService.getStudentRequests(studentId);
     }
 }

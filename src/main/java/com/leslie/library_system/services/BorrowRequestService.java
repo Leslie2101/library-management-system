@@ -100,7 +100,12 @@ public class BorrowRequestService {
         return toResponse(borrowRequestRepository.save(request));
     }
 
-
+    public List<BorrowRequestResponse> getStudentRequests(Long studentId) {
+        return borrowRequestRepository.findByStudentId(studentId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
 
     private BorrowRequestResponse toResponse(BorrowRequest request){
         return new BorrowRequestResponse(
