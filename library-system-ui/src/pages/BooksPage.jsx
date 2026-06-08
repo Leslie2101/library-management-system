@@ -128,8 +128,10 @@ function BooksPage() {
 
         <thead>
           <tr>
+            <th>ID</th>
             <th>Title</th>
             <th>Author</th>
+            <th>ISBN</th>
             <th>Total</th>
             <th>Used</th>
             <th>Available</th>
@@ -141,8 +143,10 @@ function BooksPage() {
 
           {books.map(book => (
             <tr key={book.id}>
+              <td>{book.id}</td>
               <td>{book.title}</td>
               <td>{book.author}</td>
+              <td>{book.isbn}</td>
               <td>{book.totalStock}</td>
               <td>{book.usedStock}</td>
               <td>{book.totalStock - book.usedStock}</td>
