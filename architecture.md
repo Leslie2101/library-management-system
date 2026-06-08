@@ -155,3 +155,80 @@ Stores requests waiting for administrator approval before books are returned.
 * POST `/api/return-requests`
 * PUT `/api/return-requests/{id}/approve`
 * PUT `/api/return-requests/{id}/reject`
+
+# Folder Structure
+## Project Structure
+
+```text
+library-management-system/
+├── library-system/
+│   ├── src/main/java/com/leslie/library_system/
+│   │   ├── controller/
+│   │   │   ├── BookController.java
+│   │   │   ├── UserController.java
+│   │   │   ├── BorrowRequestController.java
+│   │   │   ├── BorrowRecordController.java
+│   │   │   └── ReturnRequestController.java
+│   │   │
+│   │   ├── services/
+│   │   │   ├── BookService.java
+│   │   │   ├── UserService.java
+│   │   │   ├── BorrowRequestService.java
+│   │   │   ├── BorrowRecordService.java
+│   │   │   └── ReturnRequestService.java
+│   │   │
+│   │   ├── repository/
+│   │   │   ├── BookRepository.java
+│   │   │   ├── UserRepository.java
+│   │   │   ├── BorrowRequestRepository.java
+│   │   │   ├── BorrowRecordRepository.java
+│   │   │   └── ReturnRequestRepository.java
+│   │   │
+│   │   ├── model/
+│   │   │   ├── Book.java
+│   │   │   ├── User.java
+│   │   │   ├── BorrowRequest.java
+│   │   │   ├── BorrowRecord.java
+│   │   │   └── ReturnRequest.java
+│   │   │
+│   │   ├── dto/
+│   │   │   ├── book/
+│   │   │   ├── user/
+│   │   │   ├── borrowrequest/
+│   │   │   ├── borrowrecord/
+│   │   │   └── returnrequest/
+│   │   │
+│   │   ├── exception/
+│   │   │
+│   │   └── LibrarySystemApplication.java
+│   │
+│   └── src/main/resources/
+│       └── application.properties
+│
+├── library-system-ui/
+│   └── src/
+│       ├── api/
+│       │
+│       └── pages/
+│           ├── LoginPage.jsx
+│           ├── StudentPortal.jsx
+│           ├── AdminPortal.jsx
+│           ├── BooksPage.jsx
+│           └── UsersPage.jsx
+└── docs/
+    ├── readme.md
+    ├── architecture.md
+    └── setup.md
+```
+
+### Backend Package Responsibilities
+
+| Package    | Responsibility                                                                      |
+| ---------- | ------------------------------------------------------------------------------------|
+| controller | Handle HTTP requests and responses                                                  |
+| services   | Contain business logic                                                              |
+| repository | Access database using Spring Data JPA                                               |
+| model      | JPA entity classes                                                                  |
+| dto        | Request and response objects (for hiding some data from the user)                   |
+| exception  | Custom exceptions and global exception handling                                     |
+
