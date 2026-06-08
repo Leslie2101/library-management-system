@@ -1,11 +1,14 @@
 package com.leslie.library_system.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Setter @Getter
 @Table(name = "users")
 public class User {
     @Id
@@ -21,14 +24,5 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public User() {}
-
-    public User(String name, String email, String password, Role role) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
 }

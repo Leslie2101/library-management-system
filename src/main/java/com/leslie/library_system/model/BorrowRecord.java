@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "borrow_requests")
-public class BorrowRequest {
+@Table(name = "borrow_records")
+public class BorrowRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,15 +26,9 @@ public class BorrowRequest {
 
     private int quantity;
 
+    private LocalDateTime borrowDate = LocalDateTime.now();
+    private LocalDateTime returnDate;
+
     @Enumerated(EnumType.STRING)
-    private RequestStatus status = RequestStatus.PENDING;
-
-    private LocalDateTime requestDate = LocalDateTime.now();
-    private LocalDateTime processedDate;
-
-    @ManyToOne
-    private User processedBy;
-
-    private String rejectionReason;
-
+    private BorrowRecordStatus status = BorrowRecordStatus.BORROWING;
 }

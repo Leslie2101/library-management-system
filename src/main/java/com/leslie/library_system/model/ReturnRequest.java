@@ -11,19 +11,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "borrow_requests")
-public class BorrowRequest {
+@Table(name = "return_requests")
+public class ReturnRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private User student;
+    private BorrowRecord borrowRecord;
 
     @ManyToOne
-    private Book book;
-
-    private int quantity;
+    private User student;
 
     @Enumerated(EnumType.STRING)
     private RequestStatus status = RequestStatus.PENDING;
@@ -33,7 +32,4 @@ public class BorrowRequest {
 
     @ManyToOne
     private User processedBy;
-
-    private String rejectionReason;
-
 }
