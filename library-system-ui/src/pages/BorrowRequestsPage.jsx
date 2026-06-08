@@ -142,6 +142,7 @@ function BorrowRequestsPage() {
                 <th>Quantity</th>
                 <th>Status</th>
                 <th>Action</th>
+                <th>Processed By</th>
             </tr>
             </thead>
 
@@ -168,6 +169,7 @@ function BorrowRequestsPage() {
                     "Processed"
                     )}
                 </td>
+                <td>{request.processorName}</td>
                 </tr>
             ))}
             </tbody>

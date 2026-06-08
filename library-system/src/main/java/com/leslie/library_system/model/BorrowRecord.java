@@ -31,4 +31,6 @@ public class BorrowRecord {
 
     @Enumerated(EnumType.STRING)
     private BorrowRecordStatus status;
+
+    private String note;
 }

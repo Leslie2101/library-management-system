@@ -38,7 +38,8 @@ public class BorrowRecordService {
                 record.getQuantity(),
                 record.getStatus(),
                 record.getBorrowDate(),
-                record.getReturnDate()
+                record.getReturnDate(),
+                record.getNote()
         );
     }
 }

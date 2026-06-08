@@ -8,5 +8,6 @@ public record BorrowRequestResponse(
         String studentName,
         String bookTitle,
         int quantity,
-        RequestStatus status
+        RequestStatus status,
+        String processorName
 ) {}

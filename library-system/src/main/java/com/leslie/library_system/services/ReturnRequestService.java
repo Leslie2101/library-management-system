@@ -57,6 +57,10 @@ public class ReturnRequestService {
             throw new InvalidRequestException("Borrow request has already been processed.");
         }
 
+        if (admin.getRole() != Role.ADMIN){
+            throw new InvalidRequestException("Only admin can approve return request");
+        }
+
         BorrowRecord record = request.getBorrowRecord();
         Book book = record.getBook();
 
@@ -66,6 +70,7 @@ public class ReturnRequestService {
         // update record
         record.setStatus(BorrowRecordStatus.RETURNED);
         record.setReturnDate(LocalDateTime.now());
+        record.setNote("-");
 
         // update request
         request.setStatus(RequestStatus.APPROVED);
@@ -84,6 +89,16 @@ public class ReturnRequestService {
         if (request.getStatus() != RequestStatus.PENDING){
             throw new InvalidRequestException("Borrow request has already been processed.");
         }
+
+        if (admin.getRole() != Role.ADMIN){
+            throw new InvalidRequestException("Only admin can reject return request");
+        }
+
+        // book still not yet returned
+        BorrowRecord record = request.getBorrowRecord();
+        record.setStatus(BorrowRecordStatus.BORROWING);
+        record.setNote(reason);
+
 
         // update request
         request.setStatus(RequestStatus.REJECTED);
@@ -105,7 +120,9 @@ public class ReturnRequestService {
                 request.getBorrowRecord().getId(),
                 request.getBorrowRecord().getBook().getTitle(),
                 request.getStudent().getName(),
-                request.getStatus()
+                request.getStatus(),
+                request.getProcessedBy() != null ? request.getProcessedBy().getName() : "N/A",
+                request.getRejectionReason()
         );
     }
 

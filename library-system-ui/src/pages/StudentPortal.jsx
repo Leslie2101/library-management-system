@@ -4,6 +4,7 @@ import { getBorrowRecordsByStudent } from "../api/borrowRecordApi";
 import { createReturnRequest } from "../api/returnRequestApi";
 
 function StudentPortal() {
+    // const user =JSON.parse(localStorage.getItem("user"));
     const [studentId, setStudentId] = useState("");
     const [records, setRecords] = useState([]);
     const [borrowRequests, setBorrowRequests] = useState([]);
@@ -154,6 +155,7 @@ function StudentPortal() {
             <th>Book</th>
             <th>Quantity</th>
             <th>Status</th>
+            <th>Processed By</th>
             </tr>
         </thead>
 
@@ -164,6 +166,7 @@ function StudentPortal() {
                 <td>{request.bookTitle}</td>
                 <td>{request.quantity}</td>
                 <td>{request.status}</td>
+                <td>{request.processorName}</td>
             </tr>
             ))}
         </tbody>
@@ -183,6 +186,8 @@ function StudentPortal() {
             <th>Status</th>
             <th>Borrow Date</th>
             <th>Action</th>
+            <th>Returned Date</th>
+            <th>Note</th>
             </tr>
         </thead>
 
@@ -209,6 +214,8 @@ function StudentPortal() {
                         "-"
                     )}
                 </td>
+                <td>{record.returnDate || "-"}</td>
+                <td>{record.note || "-"}</td>
             </tr>
 
             ))}

@@ -7,5 +7,7 @@ public record ReturnRequestResponse(
         Long borrowRecordId,
         String bookTitle,
         String studentName,
-        RequestStatus status
+        RequestStatus status,
+        String processorName,
+        String rejectionReason
 ) {}

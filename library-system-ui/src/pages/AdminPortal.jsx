@@ -10,12 +10,15 @@ import {
   approveReturnRequest,
   rejectReturnRequest,
 } from "../api/returnRequestApi";
+import BooksPage from "./BooksPage";
 
 
 function AdminPortal() {
-    const [adminId, setAdminId] = useState("");
+
     const [borrowRequests, setBorrowRequests] = useState([]);
     const [returnRequests, setReturnRequests] = useState([]);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const [adminId, setAdminId] = useState("");
 
 
     useEffect(() => {
@@ -107,108 +110,118 @@ function AdminPortal() {
   };
 
   return (
-    <div>
-        <h2>Admin Portal</h2>
+    <>
+        <div>
+            <h2>Admin Portal</h2>
 
-        <label>Admin ID: </label>
-        <input
-            placeholder="Enter admin ID"
-            value={adminId}
-            onChange={(e) => setAdminId(e.target.value)}
-        />
+            <label>Admin ID: </label>
+            <input
+                placeholder="Enter admin ID"
+                value={adminId}
+                onChange={(e) => setAdminId(e.target.value)}
+            />
 
-        <hr />
+            <hr />
 
-        <h3>Borrow Requests</h3>
+            <h3>Borrow Requests</h3>
 
-        <button onClick={loadBorrowRequests}>Refresh Borrow Requests</button>
+            <button onClick={loadBorrowRequests}>Refresh Borrow Requests</button>
 
-        <table border="1">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Student</th>
-                <th>Book</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            {borrowRequests.map((request) => (
-                <tr key={request.id}>
-                <td>{request.id}</td>
-                <td>{request.studentName}</td>
-                <td>{request.bookTitle}</td>
-                <td>{request.quantity}</td>
-                <td>{request.status}</td>
-                <td>
-                    {request.status === "PENDING" ? (
-                    <>
-                        <button onClick={() => handleApproveBorrow(request.id)}>
-                        Approve
-                        </button>
-
-                        <button onClick={() => handleRejectBorrow(request.id)}>
-                        Reject
-                        </button>
-                    </>
-                    ) : (
-                    "Processed"
-                    )}
-                </td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-
-        <hr />
-
-        <h3>Return Requests</h3>
-
-        <button onClick={loadReturnRequests}>Refresh Return Requests</button>
-
-        <table border="1">
-            <thead>
+            <table border="1">
+                <thead>
                 <tr>
-                <th>ID</th>
-                <th>Borrow Record ID</th>
-                <th>Student</th>
-                <th>Book</th>
-                <th>Status</th>
-                <th>Action</th>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>Processed By</th>
                 </tr>
-            </thead>
+                </thead>
 
-            <tbody>
-                {returnRequests.map((request) => (
-                <tr key={request.id}>
+                <tbody>
+                {borrowRequests.map((request) => (
+                    <tr key={request.id}>
                     <td>{request.id}</td>
-                    <td>{request.borrowRecordId}</td>
                     <td>{request.studentName}</td>
                     <td>{request.bookTitle}</td>
+                    <td>{request.quantity}</td>
                     <td>{request.status}</td>
                     <td>
-                    {request.status === "PENDING" ? (
+                        {request.status === "PENDING" ? (
                         <>
-                        <button onClick={() => handleApproveReturn(request.id)}>
+                            <button onClick={() => handleApproveBorrow(request.id)}>
                             Approve
-                        </button>
+                            </button>
 
-                        <button onClick={() => handleRejectReturn(request.id)}>
+                            <button onClick={() => handleRejectBorrow(request.id)}>
                             Reject
-                        </button>
+                            </button>
                         </>
-                    ) : (
+                        ) : (
                         "Processed"
-                    )}
+                        )}
                     </td>
-                </tr>
+                    <td>{request.processorName}</td>
+                    </tr>
                 ))}
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+
+            <hr />
+
+            <h3>Return Requests</h3>
+
+            <button onClick={loadReturnRequests}>Refresh Return Requests</button>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>Borrow Record ID</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>Processed By</th>
+                    <th>Rejection Reason</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {returnRequests.map((request) => (
+                    <tr key={request.id}>
+                        <td>{request.id}</td>
+                        <td>{request.borrowRecordId}</td>
+                        <td>{request.studentName}</td>
+                        <td>{request.bookTitle}</td>
+                        <td>{request.status}</td>
+                        <td>
+                        {request.status === "PENDING" ? (
+                            <>
+                            <button onClick={() => handleApproveReturn(request.id)}>
+                                Approve
+                            </button>
+
+                            <button onClick={() => handleRejectReturn(request.id)}>
+                                Reject
+                            </button>
+                            </>
+                        ) : (
+                            "Processed"
+                        )}
+                        </td>
+                        <td>{request.processorName}</td>
+                        <td>{request.rejectionReason || "-"}</td>
+                    </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+
+        {/* <BooksPage /> */}
+    </>
   );
 }
 

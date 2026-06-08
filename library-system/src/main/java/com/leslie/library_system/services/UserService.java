@@ -2,12 +2,14 @@ package com.leslie.library_system.services;
 
 
 import com.leslie.library_system.dto.user.CreateUserRequest;
+import com.leslie.library_system.dto.user.LoginRequest;
 import com.leslie.library_system.dto.user.UserResponse;
 import com.leslie.library_system.exception.DuplicateResourceException;
 import com.leslie.library_system.exception.ResourceNotFoundException;
 import com.leslie.library_system.model.Book;
 import com.leslie.library_system.model.User;
 import com.leslie.library_system.repository.UserRepository;
+import com.sun.jdi.request.InvalidRequestStateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,22 @@ public class UserService {
                 .build();
 
         return toResponse(userRepository.save(user));
+    }
+
+    public UserResponse login(LoginRequest request){
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!user.getPassword().equals(request.password())) {
+            throw new InvalidRequestStateException("Invalid password");
+        }
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 
     public List<UserResponse> getAllUsers() {

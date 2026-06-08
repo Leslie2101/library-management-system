@@ -13,5 +13,6 @@ public record BorrowRecordResponse(
         int quantity,
         BorrowRecordStatus status,
         LocalDateTime borrowDate,
-        LocalDateTime returnDate
+        LocalDateTime returnDate,
+        String note
 ) {}

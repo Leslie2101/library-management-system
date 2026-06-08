@@ -1,6 +1,7 @@
 package com.leslie.library_system.controller;
 
 import com.leslie.library_system.dto.user.CreateUserRequest;
+import com.leslie.library_system.dto.user.LoginRequest;
 import com.leslie.library_system.dto.user.UserResponse;
 import com.leslie.library_system.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ public class UserController {
     public UserResponse createUser(@RequestBody CreateUserRequest request){
         System.out.println(request);
         return userService.createUser(request);
+    }
+
+    @PostMapping("/login")
+    public UserResponse login(@RequestBody LoginRequest request) {
+        return userService.login(request);
     }
 
     @GetMapping

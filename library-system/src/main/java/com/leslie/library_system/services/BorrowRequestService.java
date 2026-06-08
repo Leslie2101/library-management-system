@@ -60,6 +60,12 @@ public class BorrowRequestService {
         }
 
         User admin = userService.findUserEntityById(adminId);
+
+        if (admin.getRole() != Role.ADMIN){
+            throw new InvalidRequestException("Only admin can approve borrow request");
+        }
+
+
         Book book = request.getBook();
 
         // borrow book logic
@@ -88,7 +94,14 @@ public class BorrowRequestService {
             throw new InvalidRequestException("Borrow request has already been processed");
         }
 
+
         User admin = userService.findUserEntityById(adminId);
+
+        if (admin.getRole() != Role.ADMIN){
+            throw new InvalidRequestException("Only admin can reject borrow request");
+        }
+
+
         request.setStatus(RequestStatus.REJECTED);
         request.setProcessedBy(admin);
         request.setProcessedDate(LocalDateTime.now());
@@ -115,7 +128,8 @@ public class BorrowRequestService {
                 request.getStudent().getName(),
                 request.getBook().getTitle(),
                 request.getQuantity(),
-                request.getStatus()
+                request.getStatus(),
+                request.getProcessedBy() != null ? request.getProcessedBy().getName() : "N/A"
         );
     }
 

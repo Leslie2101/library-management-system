@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 
 import BooksPage from "./pages/BooksPage";
 import UsersPage from "./pages/UsersPage";
@@ -7,18 +7,15 @@ import BorrowRecordsPage from "./pages/BorrowRecordsPage";
 import ReturnRequestsPage from "./pages/ReturnRequestsPage";
 import StudentPortal from "./pages/StudentPortal";
 import AdminPortal from "./pages/AdminPortal";
+import LoginPage from "./pages/LoginPage";
+import { Navigation } from "./components/Navigation";
 
 function App() {
   return (
     <BrowserRouter>
       <h1>Library System</h1>
 
-      <nav>
-        <Link to="/">Books</Link> |{" "}
-        <Link to="/student">Student Portal</Link> |{" "}
-        <Link to="/admin">Admin Portal</Link> |{" "}
-        <Link to="/users">Users</Link>
-      </nav>
+      <Navigation />
 
       <hr />
 
@@ -30,7 +27,10 @@ function App() {
         <Route path="/return-requests" element={<ReturnRequestsPage />} />
         <Route path="/student" element={<StudentPortal />} />
         <Route path="/admin" element={<AdminPortal />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
+
+      
     </BrowserRouter>
   );
 }
