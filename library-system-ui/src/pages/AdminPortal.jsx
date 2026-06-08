@@ -5,10 +5,34 @@ import {
   rejectBorrowRequest,
 } from "../api/borrowRequestApi";
 
+import {
+  getReturnRequests,
+  approveReturnRequest,
+  rejectReturnRequest,
+} from "../api/returnRequestApi";
+
+
 function AdminPortal() {
     const [adminId, setAdminId] = useState("");
     const [borrowRequests, setBorrowRequests] = useState([]);
+    const [returnRequests, setReturnRequests] = useState([]);
 
+
+    useEffect(() => {
+        loadBorrowRequests();
+        loadReturnRequests();
+    }, []);
+
+    const loadReturnRequests = async () => {
+        try {
+            const response = await getReturnRequests();
+            setReturnRequests(response.data);
+        } catch (error) {
+            alert(error.response?.data?.error || "Failed to load return requests");
+        }
+    };
+
+    
     const loadBorrowRequests = async () => {
         try {
             const response = await getBorrowRequests();
@@ -18,9 +42,38 @@ function AdminPortal() {
         }
     };
 
-    useEffect(() => {
-        loadBorrowRequests();
-    }, []);
+    const handleApproveReturn = async (requestId) => {
+        if (!adminId) {
+            alert("Please enter admin ID first");
+            return;
+        }
+
+        try {
+            await approveReturnRequest(requestId, Number(adminId));
+            loadReturnRequests();
+            loadBorrowRequests();
+        } catch (error) {
+            alert(error.response?.data?.error || "Failed to approve return request");
+        }
+    };
+
+    const handleRejectReturn = async (requestId) => {
+        if (!adminId) {
+            alert("Please enter admin ID first");
+            return;
+        }
+
+        const reason = prompt("Enter rejection reason:");
+        if (!reason) return;
+
+        try {
+            await rejectReturnRequest(requestId, Number(adminId), reason);
+            loadReturnRequests();
+        } catch (error) {
+            alert(error.response?.data?.error || "Failed to reject return request");
+        }
+    };
+
 
     const handleApproveBorrow = async (requestId) => {
         if (!adminId) {
@@ -55,60 +108,106 @@ function AdminPortal() {
 
   return (
     <div>
-      <h2>Admin Portal</h2>
+        <h2>Admin Portal</h2>
 
-      <label>Admin ID: </label>
-      <input
-        placeholder="Enter admin ID"
-        value={adminId}
-        onChange={(e) => setAdminId(e.target.value)}
-      />
+        <label>Admin ID: </label>
+        <input
+            placeholder="Enter admin ID"
+            value={adminId}
+            onChange={(e) => setAdminId(e.target.value)}
+        />
 
-      <hr />
+        <hr />
 
-      <h3>Borrow Requests</h3>
+        <h3>Borrow Requests</h3>
 
-      <button onClick={loadBorrowRequests}>Refresh Borrow Requests</button>
+        <button onClick={loadBorrowRequests}>Refresh Borrow Requests</button>
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Student</th>
-            <th>Book</th>
-            <th>Quantity</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {borrowRequests.map((request) => (
-            <tr key={request.id}>
-              <td>{request.id}</td>
-              <td>{request.studentName}</td>
-              <td>{request.bookTitle}</td>
-              <td>{request.quantity}</td>
-              <td>{request.status}</td>
-              <td>
-                {request.status === "PENDING" ? (
-                  <>
-                    <button onClick={() => handleApproveBorrow(request.id)}>
-                      Approve
-                    </button>
-
-                    <button onClick={() => handleRejectBorrow(request.id)}>
-                      Reject
-                    </button>
-                  </>
-                ) : (
-                  "Processed"
-                )}
-              </td>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Book</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+            </thead>
+
+            <tbody>
+            {borrowRequests.map((request) => (
+                <tr key={request.id}>
+                <td>{request.id}</td>
+                <td>{request.studentName}</td>
+                <td>{request.bookTitle}</td>
+                <td>{request.quantity}</td>
+                <td>{request.status}</td>
+                <td>
+                    {request.status === "PENDING" ? (
+                    <>
+                        <button onClick={() => handleApproveBorrow(request.id)}>
+                        Approve
+                        </button>
+
+                        <button onClick={() => handleRejectBorrow(request.id)}>
+                        Reject
+                        </button>
+                    </>
+                    ) : (
+                    "Processed"
+                    )}
+                </td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+
+        <hr />
+
+        <h3>Return Requests</h3>
+
+        <button onClick={loadReturnRequests}>Refresh Return Requests</button>
+
+        <table border="1">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Borrow Record ID</th>
+                <th>Student</th>
+                <th>Book</th>
+                <th>Status</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {returnRequests.map((request) => (
+                <tr key={request.id}>
+                    <td>{request.id}</td>
+                    <td>{request.borrowRecordId}</td>
+                    <td>{request.studentName}</td>
+                    <td>{request.bookTitle}</td>
+                    <td>{request.status}</td>
+                    <td>
+                    {request.status === "PENDING" ? (
+                        <>
+                        <button onClick={() => handleApproveReturn(request.id)}>
+                            Approve
+                        </button>
+
+                        <button onClick={() => handleRejectReturn(request.id)}>
+                            Reject
+                        </button>
+                        </>
+                    ) : (
+                        "Processed"
+                    )}
+                    </td>
+                </tr>
+                ))}
+            </tbody>
+        </table>
     </div>
   );
 }

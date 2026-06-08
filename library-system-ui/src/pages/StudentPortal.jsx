@@ -146,7 +146,7 @@ function StudentPortal() {
         <hr />
 
         <h3>My Borrow Requests</h3>
-
+        <button onClick={loadBorrowRequests}>Refresh Borrow Requests</button>
         <table border="1">
         <thead>
             <tr>
@@ -172,7 +172,7 @@ function StudentPortal() {
         <hr />
 
         <h3>My Borrowed Books</h3>
-
+        <button onClick={loadBorrowRecords}>Refresh Borrow Records</button>
         <table border="1">
 
         <thead>
