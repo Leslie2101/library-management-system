@@ -3,6 +3,7 @@ package com.leslie.library_system.services;
 import com.leslie.library_system.dto.BookResponse;
 import com.leslie.library_system.dto.CreateBookRequest;
 import com.leslie.library_system.dto.UpdateBookRequest;
+import com.leslie.library_system.exception.DuplicateResourceException;
 import com.leslie.library_system.exception.ResourceNotFoundException;
 import com.leslie.library_system.model.Book;
 import com.leslie.library_system.repository.BookRepository;
@@ -34,8 +35,10 @@ public class BookService {
     }
 
     public BookResponse createBook(CreateBookRequest request) {
-        if (bookRepository.findByIsbn(request.isbn()).isPresent()){
-            throw new RuntimeException("ISBN already exists");
+        if (bookRepository.findByIsbn(request.isbn()).isPresent()) {
+            throw new DuplicateResourceException(
+                    "Book with ISBN " + request.isbn() + " already exists"
+            );
         }
         Book book = Book.builder()
                 .title(request.title())
