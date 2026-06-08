@@ -6,6 +6,7 @@ import com.leslie.library_system.dto.book.UpdateBookRequest;
 import com.leslie.library_system.exception.DuplicateResourceException;
 import com.leslie.library_system.exception.ResourceNotFoundException;
 import com.leslie.library_system.model.Book;
+import com.leslie.library_system.model.User;
 import com.leslie.library_system.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,15 @@ public class BookService {
                         ));
 
         bookRepository.delete(book);
+    }
+
+    public Book findBookEntityById(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Book with id " + id + " not found"
+                        )
+                );
     }
 
     private BookResponse toResponse(Book book) {

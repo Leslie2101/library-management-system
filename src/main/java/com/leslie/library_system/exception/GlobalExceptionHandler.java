@@ -39,4 +39,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(response);
     }
+
+    @ExceptionHandler(InsufficientResourceException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientStock(
+            InsufficientResourceException ex
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
 }
