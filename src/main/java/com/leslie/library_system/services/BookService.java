@@ -8,11 +8,12 @@ import com.leslie.library_system.exception.ResourceNotFoundException;
 import com.leslie.library_system.model.Book;
 import com.leslie.library_system.repository.BookRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class BookService {
     private final BookRepository bookRepository;
