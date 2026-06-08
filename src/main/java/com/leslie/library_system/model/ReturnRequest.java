@@ -25,11 +25,13 @@ public class ReturnRequest {
     private User student;
 
     @Enumerated(EnumType.STRING)
-    private RequestStatus status = RequestStatus.PENDING;
+    private RequestStatus status;
 
-    private LocalDateTime requestDate = LocalDateTime.now();
+    private LocalDateTime requestDate;
     private LocalDateTime processedDate;
 
     @ManyToOne
     private User processedBy;
+
+    private String rejectionReason;
 }

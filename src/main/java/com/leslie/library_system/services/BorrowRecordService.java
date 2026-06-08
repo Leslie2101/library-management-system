@@ -1,6 +1,7 @@
 package com.leslie.library_system.services;
 
 import com.leslie.library_system.dto.borrowRecord.BorrowRecordResponse;
+import com.leslie.library_system.exception.ResourceNotFoundException;
 import com.leslie.library_system.model.BorrowRecord;
 import com.leslie.library_system.repository.BorrowRecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,13 @@ import java.util.List;
 @Service
 public class BorrowRecordService {
     private final BorrowRecordRepository borrowRecordRepository;
+
+    public BorrowRecord getBorrowRecordEntity(Long id) {
+        return borrowRecordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Borrow record id %s not found")
+                );
+    }
 
     public List<BorrowRecordResponse> getBorrowedBooks(Long studentId){
         return borrowRecordRepository.findByStudentId(studentId)

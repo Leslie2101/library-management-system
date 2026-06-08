@@ -53,8 +53,7 @@ public class BorrowRequestService {
     }
 
     public BorrowRequestResponse approveRequest(Long requestId, Long adminId){
-        BorrowRequest request = borrowRequestRepository.findById(requestId)
-                .orElseThrow(() -> new ResourceNotFoundException("Borrow request not found"));
+        BorrowRequest request = findBorrowRequestEntity(requestId);
 
         if (request.getStatus() != RequestStatus.PENDING){
             throw new InvalidRequestException("Borrow request has already been processed");
@@ -84,9 +83,7 @@ public class BorrowRequestService {
     }
 
     public BorrowRequestResponse rejectRequest(Long requestId, Long adminId, String reason){
-        BorrowRequest request = borrowRequestRepository.findById(requestId)
-                .orElseThrow(() -> new ResourceNotFoundException("Borrow request not found"));
-
+        BorrowRequest request = findBorrowRequestEntity(requestId);
         if (request.getStatus() != RequestStatus.PENDING){
             throw new InvalidRequestException("Borrow request has already been processed");
         }
@@ -98,6 +95,11 @@ public class BorrowRequestService {
         request.setRejectionReason(reason);
 
         return toResponse(borrowRequestRepository.save(request));
+    }
+
+    public BorrowRequest findBorrowRequestEntity(Long id){
+        return borrowRequestRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Borrow request not found"));
     }
 
     public List<BorrowRequestResponse> getStudentRequests(Long studentId) {

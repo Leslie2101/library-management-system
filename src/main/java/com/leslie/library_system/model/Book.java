@@ -36,4 +36,12 @@ public class Book {
 
         this.usedStock += quantity;
     }
+
+    public void returnBook(int quantity) {
+        if (quantity <= 0 || quantity > usedStock){
+            throw new IllegalArgumentException("Number of returned book cannot be negative or over number of book being borrowed currently");
+        }
+
+        this.usedStock -= quantity;
+    }
 }

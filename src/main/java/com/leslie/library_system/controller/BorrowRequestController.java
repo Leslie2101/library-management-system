@@ -1,10 +1,9 @@
 package com.leslie.library_system.controller;
 
-import com.leslie.library_system.dto.borrowRecord.BorrowRecordResponse;
-import com.leslie.library_system.dto.borrowRequest.ApproveBorrowRequest;
+import com.leslie.library_system.dto.requestsResponse.ApproveRequest;
 import com.leslie.library_system.dto.borrowRequest.BorrowRequestResponse;
 import com.leslie.library_system.dto.borrowRequest.CreateBorrowRequest;
-import com.leslie.library_system.dto.borrowRequest.RejectBorrowRequest;
+import com.leslie.library_system.dto.requestsResponse.RejectRequest;
 import com.leslie.library_system.services.BorrowRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +28,12 @@ public class BorrowRequestController {
     }
 
     @PutMapping("/{id}/approve")
-    public BorrowRequestResponse approveRequest(@PathVariable Long id, @RequestBody ApproveBorrowRequest request){
+    public BorrowRequestResponse approveRequest(@PathVariable Long id, @RequestBody ApproveRequest request){
         return borrowRequestService.approveRequest(id, request.adminId());
     }
 
     @PutMapping("/{id}/reject")
-    public BorrowRequestResponse rejectRequest(@PathVariable Long id, @RequestBody RejectBorrowRequest request){
+    public BorrowRequestResponse rejectRequest(@PathVariable Long id, @RequestBody RejectRequest request){
         return borrowRequestService.rejectRequest(id, request.adminId(), request.reason());
     }
 
