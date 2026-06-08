@@ -1,4 +1,4 @@
-package com.leslie.library_system.dto;
+package com.leslie.library_system.dto.book;
 
 public record BookResponse(
         Long id,

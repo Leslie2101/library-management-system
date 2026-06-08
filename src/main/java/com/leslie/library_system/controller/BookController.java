@@ -1,10 +1,8 @@
 package com.leslie.library_system.controller;
 
-import com.leslie.library_system.dto.BookResponse;
-import com.leslie.library_system.dto.CreateBookRequest;
-import com.leslie.library_system.dto.UpdateBookRequest;
-import com.leslie.library_system.model.Book;
-import com.leslie.library_system.repository.BookRepository;
+import com.leslie.library_system.dto.book.BookResponse;
+import com.leslie.library_system.dto.book.CreateBookRequest;
+import com.leslie.library_system.dto.book.UpdateBookRequest;
 import com.leslie.library_system.services.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,8 @@
-package com.leslie.library_system.dto;
-
-import lombok.*;
+package com.leslie.library_system.dto.book;
 
 
-public record UpdateBookRequest (
+public record CreateBookRequest(
+
     String title,
     String author,
     String isbn,

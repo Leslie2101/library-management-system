@@ -1,8 +1,8 @@
 package com.leslie.library_system.services;
 
-import com.leslie.library_system.dto.BookResponse;
-import com.leslie.library_system.dto.CreateBookRequest;
-import com.leslie.library_system.dto.UpdateBookRequest;
+import com.leslie.library_system.dto.book.BookResponse;
+import com.leslie.library_system.dto.book.CreateBookRequest;
+import com.leslie.library_system.dto.book.UpdateBookRequest;
 import com.leslie.library_system.exception.DuplicateResourceException;
 import com.leslie.library_system.exception.ResourceNotFoundException;
 import com.leslie.library_system.model.Book;

@@ -1,6 +1,6 @@
 package com.leslie.library_system.exception;
 
-import com.leslie.library_system.dto.ErrorResponse;
+import com.leslie.library_system.dto.book.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
