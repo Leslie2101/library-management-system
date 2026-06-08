@@ -23,5 +23,5 @@ public class Book {
     private String description;
 
     private int totalStock;
-    private int availableStock;
+    private int usedStock;
 }
