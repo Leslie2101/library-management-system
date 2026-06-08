@@ -1,83 +1,96 @@
 import { useEffect, useState } from "react";
-import { getBooks, createBook, deleteBook } from "../api/bookApi";
+import { getBooks, createBook, updateBook, deleteBook } from "../api/bookApi";
 
 function BooksPage() {
+    const [books, setBooks] = useState([]);
+    const [editingId, setEditingId] = useState(null);
 
-  const [books, setBooks] = useState([]);
-
-  const [form, setForm] = useState({
-    title: "",
-    author: "",
-    isbn: "",
-    description: "",
-    totalStock: 1
-  });
-
-  const loadBooks = async () => {
-    const response = await getBooks();
-    setBooks(response.data);
-  };
-
-  useEffect(() => {
-    loadBooks();
-  }, []);
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-
-      await createBook({
-        ...form,
-        totalStock: Number(form.totalStock)
-      });
-
-      loadBooks();
-
-      setForm({
+    const [form, setForm] = useState({
         title: "",
         author: "",
         isbn: "",
         description: "",
         totalStock: 1
-      });
+    });
 
-    } catch (error) {
-      alert(
-        error.response?.data?.error ||
-        "Failed to create book"
-      );
-    }
-  };
+    const loadBooks = async () => {
+        const response = await getBooks();
+        setBooks(response.data);
+    };
 
-  const handleDelete = async (id) => {
+    useEffect(() => {
+        loadBooks();
+    }, []);
 
-    if (!window.confirm("Delete this book?")) {
-      return;
-    }
+    const handleChange = (e) => {
+        setForm({
+        ...form,
+        [e.target.name]: e.target.value
+        });
+    };
 
-    try {
-      await deleteBook(id);
-      loadBooks();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    } catch (error) {
+        try {
+            const bookData = {
+                ...form,
+                totalStock: Number(form.totalStock),
+            };
 
-      alert(
-        error.response?.data?.error ||
-        "Failed to delete book"
-      );
+            if (editingId) {
+                await updateBook(editingId, bookData);
+            } else {
+                await createBook(bookData);
+            }
 
-    }
-  };
+            setForm({
+                title: "",
+                author: "",
+                isbn: "",
+                description: "",
+                totalStock: 1,
+            });
 
-  return (
+            setEditingId(null);
+            loadBooks();
+        } catch (error) {
+            alert(error.response?.data?.error || "Failed to save book");
+        }
+    };
+
+    const handleEdit = (book) => {
+        setEditingId(book.id);
+
+        setForm({
+            title: book.title,
+            author: book.author,
+            isbn: book.isbn,
+            description: book.description,
+            totalStock: book.totalStock,
+        });
+    };
+
+    const handleDelete = async (id) => {
+
+        if (!window.confirm("Delete this book?")) {
+            return;
+        }
+
+        try {
+            await deleteBook(id);
+            loadBooks();
+        } catch (error) {
+
+         alert(
+            error.response?.data?.error ||
+            "Failed to delete book"
+        );
+
+        }
+    };
+
+    return (
     <div>
 
       <h2>Books</h2>
@@ -119,8 +132,26 @@ function BooksPage() {
         />
 
         <button type="submit">
-          Add Book
+            {editingId ? "Update Book" : "Add Book"}
         </button>
+
+        {editingId && (
+            <button
+                type="button"
+                onClick={() => {
+                setEditingId(null);
+                setForm({
+                    title: "",
+                    author: "",
+                    isbn: "",
+                    description: "",
+                    totalStock: 1,
+                });
+                }}
+            >
+                Cancel Edit
+            </button>
+        )}
       </form>
 
 
@@ -151,8 +182,12 @@ function BooksPage() {
               <td>{book.usedStock}</td>
               <td>{book.totalStock - book.usedStock}</td>
               <td>
+                <button onClick={() => handleEdit(book)}>
+                    Edit
+                </button>
+
                 <button onClick={() => handleDelete(book.id)}>
-                  Delete
+                    Delete
                 </button>
               </td>
             </tr>
