@@ -10,3 +10,6 @@ export const approveBorrowRequest = (id, adminId) =>
 
 export const rejectBorrowRequest = (id, adminId, reason) =>
   api.put(`/borrow-requests/${id}/reject`, { adminId, reason });
+
+export const getBorrowRequestsByStudent = (studentId) =>
+  api.get(`/borrow-requests/student/${studentId}`);
