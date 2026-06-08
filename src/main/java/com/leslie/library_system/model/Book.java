@@ -24,4 +24,16 @@ public class Book {
 
     private int totalStock;
     private int usedStock;
+
+    public int getAvailableStock(){
+        return totalStock - usedStock;
+    }
+
+    public void borrow(int quantity){
+        if (quantity > getAvailableStock()){
+            throw new IllegalArgumentException("Insufficient stock");
+        }
+
+        this.usedStock += quantity;
+    }
 }

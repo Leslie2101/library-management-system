@@ -40,9 +40,9 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    @ExceptionHandler(InsufficientResourceException.class)
+    @ExceptionHandler(InvalidRequestException.class)
     public ResponseEntity<ErrorResponse> handleInsufficientStock(
-            InsufficientResourceException ex
+            InvalidRequestException ex
     ) {
         ErrorResponse response = new ErrorResponse(
                 LocalDateTime.now(),

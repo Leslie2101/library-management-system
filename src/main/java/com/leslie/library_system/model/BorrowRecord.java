@@ -26,9 +26,9 @@ public class BorrowRecord {
 
     private int quantity;
 
-    private LocalDateTime borrowDate = LocalDateTime.now();
+    private LocalDateTime borrowDate;
     private LocalDateTime returnDate;
 
     @Enumerated(EnumType.STRING)
-    private BorrowRecordStatus status = BorrowRecordStatus.BORROWING;
+    private BorrowRecordStatus status;
 }
