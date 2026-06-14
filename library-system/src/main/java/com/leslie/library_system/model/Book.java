@@ -1,5 +1,6 @@
 package com.leslie.library_system.model;
 
+import com.leslie.library_system.exception.InvalidRequestException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +32,13 @@ public class Book {
 
     public void borrow(int quantity){
         if (quantity > getAvailableStock()){
-            throw new IllegalArgumentException("Insufficient stock");
+            throw new InvalidRequestException(
+                    String.format(
+                            "Only %d copies available, but %d borrowed",
+                            getAvailableStock(),
+                            quantity
+                    )
+            );
         }
 
         this.usedStock += quantity;
@@ -39,7 +46,7 @@ public class Book {
 
     public void returnBook(int quantity) {
         if (quantity <= 0 || quantity > usedStock){
-            throw new IllegalArgumentException("Number of returned book cannot be negative or over number of book being borrowed currently");
+            throw new InvalidRequestException("Number of returned book cannot be negative or over number of book being borrowed currently");
         }
 
         this.usedStock -= quantity;
